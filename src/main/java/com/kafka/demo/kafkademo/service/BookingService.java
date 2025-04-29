@@ -12,7 +12,7 @@ public class BookingService {
 
     private Logger LOG = Logger.getLogger("BookingLogger");
 
-    @KafkaListener(topics = "booking-events", groupId = "booking-group")
+    @KafkaListener(topics = "booking-events", groupId = "booking-group", containerFactory = "bookingConsumerFactory")
     public void listenBookingEvents(String message) {
 
         LOG.info("Received Message in group booking-group: " + message);

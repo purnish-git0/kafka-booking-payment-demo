@@ -1,6 +1,7 @@
 package com.kafka.demo.kafkademo.config;
 
 import com.kafka.demo.kafkademo.entity.Booking;
+import com.kafka.demo.kafkademo.entity.Payment;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -18,35 +19,23 @@ public class KafkaProducerConfig {
 
     @Bean
     public ProducerFactory<String, String> producerFactory() {
-        Map<String, Object> configProps = new HashMap<>();
-        configProps.put(
-                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                "localhost:9200");
-        configProps.put(
-                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-                StringSerializer.class);
-        configProps.put(
-                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                StringSerializer.class);
+        Map<String, Object> configProps = getConfigMap();
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
     @Bean
     public ProducerFactory<String, Booking> bookingProducerFactory() {
-        Map<String, Object> configProps = new HashMap<>();
-        configProps.put(
-                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
-                "localhost:9200");
-        configProps.put(
-                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
-                StringSerializer.class);
-        configProps.put(
-                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                StringSerializer.class);
+        Map<String, Object> configProps = getConfigMap();
+
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
+    @Bean
+    public ProducerFactory<String, Payment> paymentProducerFactory() {
+        Map<String, Object> configProps = getConfigMap();
 
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
 
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate() {
@@ -60,5 +49,17 @@ public class KafkaProducerConfig {
         return new KafkaTemplate<>(bookingProducerFactory());
     }
 
-
+    private Map<String, Object> getConfigMap() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(
+                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                "localhost:9200");
+        configProps.put(
+                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                StringSerializer.class);
+        configProps.put(
+                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                StringSerializer.class);
+        return configProps;
+    }
 }
