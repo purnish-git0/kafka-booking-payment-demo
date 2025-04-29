@@ -1,6 +1,7 @@
 package com.kafka.demo.kafkademo.config;
 
 import com.kafka.demo.kafkademo.entity.Booking;
+import com.kafka.demo.kafkademo.request.PaymentRequest;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,12 @@ public class KafkaConsumerConfig {
 
     @Bean
     public ConsumerFactory<String, Booking> bookingConsumerFactory() {
+        Map<String, Object> props = getConfigMap();
+        return new DefaultKafkaConsumerFactory<>(props);
+    }
+
+    @Bean
+    public ConsumerFactory<String, PaymentRequest> paymentRequestConsumerFactory() {
         Map<String, Object> props = getConfigMap();
         return new DefaultKafkaConsumerFactory<>(props);
     }
