@@ -2,6 +2,7 @@ package com.kafka.demo.kafkademo.config;
 
 import com.kafka.demo.kafkademo.entity.Booking;
 import com.kafka.demo.kafkademo.entity.Payment;
+import com.kafka.demo.kafkademo.request.PaymentRequest;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -35,6 +36,23 @@ public class KafkaProducerConfig {
         Map<String, Object> configProps = getConfigMap();
 
         return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
+    @Bean
+    public ProducerFactory<String, PaymentRequest> paymentRequestProducerFactory() {
+        Map<String, Object> configProps = getConfigMap();
+
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
+    @Bean
+    KafkaTemplate<String, Payment> paymentKafkaTemplate() {
+        return new KafkaTemplate<>(paymentProducerFactory());
+    }
+
+    @Bean
+    KafkaTemplate<String, PaymentRequest> paymentRequestKafkaTemplate() {
+        return new KafkaTemplate<>(paymentRequestProducerFactory());
     }
 
     @Bean
